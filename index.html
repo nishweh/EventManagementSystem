@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PIKATS</title>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #000;
+        color: #fff;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      body {
+        flex: 1;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        background: linear-gradient(to right, #1a237e, #283593);
+        position: relative;
+        z-index: 10;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .buttons button {
+        margin-left: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        background-color: #3949ab;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .buttons button:hover {
+        background-color: #5c6bc0;
+      }
+
+      .video-section {
+        position: relative;
+        width: 100%;
+        height: 75vh;
+        overflow: hidden;
+      }
+
+      .video-section video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+      }
+
+      .video-overlay {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        text-align: center;
+        padding: 0 20px;
+      }
+
+      .video-overlay div {
+        max-width: 800px;
+      }
+
+      .video-overlay h2 {
+        font-size: 36px;
+        font-weight: 800;
+        color: #ffffff;
+        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+        margin-bottom: 10px;
+      }
+
+      .sub-text {
+        font-size: 18px;
+        font-weight: 400;
+        color: #e0e0e0;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      @media (max-width: 768px) {
+        .video-overlay h2 {
+          font-size: 28px;
+        }
+        .sub-text {
+          font-size: 16px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .video-overlay h2 {
+          font-size: 22px;
+        }
+        .sub-text {
+          font-size: 14px;
+        }
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1001;
+      }
+
+      .glass-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        display: none;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .glass-card {
+        position: relative;
+        width: 80%;
+        max-width: 700px;
+        max-height: 80vh;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      }
+
+      .glass-blur-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(15px);
+        background-color: rgba(255, 255, 255, 0.1);
+        z-index: 0;
+      }
+
+      .scroll-area {
+        position: relative;
+        z-index: 1;
+        padding: 30px;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .member-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: 100%;
+        padding: 20px;
+      }
+
+      .member-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .member-card img {
+        width: 100%;
+        max-width: 150px;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        margin-bottom: 10px;
+      }
+
+      .member-card p {
+        font-size: 14px;
+        color: #c5cae9;
+        margin-top: 8px;
+      }
+
+      @media (max-width: 768px) {
+        .member-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .member-grid {
+          grid-template-columns: 1fr;
+          align-items: center;
+        }
+      }
+
+      .footer {
+        background: linear-gradient(to right, #1a237e, #283593);
+        padding: 30px 0;
+        text-align: center;
+        color: #c5cae9;
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 0px;
+      }
+
+      .logo-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-img {
+        height: 40px;
+        width: auto;
+        object-fit: contain;
+      }
+
+      #logout-ok-button {
+        margin-top: 20px;
+        padding: 12px 25px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        background-color: #3949ab;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-weight: 600;
+      }
+
+      #logout-ok-button:hover {
+        background-color: #5c6bc0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="logo-title">
+        <img src="img/logopikats.png" alt="PIKATS Logo" class="logo-img" />
+        <h1>PIKATS.</h1>
+      </div>
+      <div class="buttons">
+        <button onclick="openModal(event)">About Us</button>
+        <button onclick="location.href='login.php'">Log In</button>
+        <button onclick="location.href='signup.php'">Sign Up</button>
+      </div>
+    </header>
+
+    <div class="video-section">
+      <video autoplay muted loop playsinline>
+        <source src="img/corporate.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="video-overlay">
+        <div>
+          <h2>Empowering PIKATS with Seamless Event Management</h2>
+          <p class="sub-text">
+            Built to simplify, enhance, and transform the way you manage events
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-modal" id="aboutModal">
+      <div class="glass-card">
+        <div class="glass-blur-layer"></div>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+        <div class="scroll-area">
+          <h2>About Us</h2>
+          <div class="member-grid">
+            <div class="member-card">
+              <img src="img/danish.png" alt="MUHAMAD DANISH AIMAN BIN SOFIAN" />
+              <p>MUHAMAD DANISH AIMAN BIN SOFIAN (2023692666)</p>
+            </div>
+            <div class="member-card">
+              <img
+                src="img/manji.png"
+                alt="MOHAMMAD AIMAN SYAHMI BIN ZAINUDDIN" />
+              <p>MOHAMMAD AIMAN SYAHMI BIN ZAINUDDIN (2023480846)</p>
+            </div>
+            <div class="member-card">
+              <img src="img/syahir.jpg" alt="MUHAMMAD SYAHIR AFIQ BIN ROSLEE" />
+              <p>MUHAMMAD SYAHIR AFIQ BIN ROSLEE (2023892228)</p>
+            </div>
+            <div class="member-card">
+              <img
+                src="img/aqil.png"
+                alt="MUHAMAD AQIL HAFIZI BIN MOHAMAD ALI SABRI" />
+              <p>MUHAMAD AQIL HAFIZI BIN MOHAMAD ALI SABRI (2023842434)</p>
+            </div>
+            <div class="member-card">
+              <img
+                src="img/bek.png"
+                alt="MUHAMMAD FARIS AMZAR BIN MOHD NAZRI" />
+              <p>MUHAMMAD FARIS AMZAR BIN MOHD NAZRI (2023498194)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-modal" id="logoutModal">
+      <div class="glass-card">
+        <div class="glass-blur-layer"></div>
+        <div class="scroll-area" style="text-align: center">
+          <h2 style="margin-bottom: 12px">Logged Out Successfully</h2>
+          <p class="sub-text" style="margin-bottom: 25px">
+            Thank you for visiting PIKATS. You are now safely logged out.
+          </p>
+          <button id="logout-ok-button" onclick="closeLogoutModal()">
+            Okay
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>Made by Bitwave.</p>
+    </footer>
+
+    <script>
+      function openModal() {
+        document.getElementById('aboutModal').style.display = 'flex';
+      }
+
+      function closeModal() {
+        document.getElementById('aboutModal').style.display = 'none';
+      }
+
+      function openLogoutModal() {
+        document.getElementById('logoutModal').style.display = 'flex';
+      }
+
+      function closeLogoutModal() {
+        const modal = document.getElementById('logoutModal');
+        modal.style.display = 'none';
+        // Clean up the URL
+        if (window.history.replaceState) {
+          const url = new URL(window.location.href);
+          url.searchParams.delete('logout');
+          window.history.replaceState({ path: url.href }, '', url.href);
+        }
+      }
+
+      window.addEventListener('click', function (event) {
+        const aboutModal = document.getElementById('aboutModal');
+        const logoutModal = document.getElementById('logoutModal');
+        if (event.target === aboutModal) {
+          closeModal();
+        }
+        if (event.target === logoutModal) {
+          closeLogoutModal();
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === "Escape") {
+          closeModal();
+          closeLogoutModal();
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('logout') === 'success') {
+          openLogoutModal();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+/* Shared layout styles for all pages with a sidebar */
+body {
+  margin: 0;
+  padding: 0; /* Base body has no padding */
+  font-family: "Inter", "Segoe UI", sans-serif; /* Consistent font */
+  background: linear-gradient(135deg, #171f73 0%, #3f4ec1 100%);
+  color: #e8eaf6;
+  min-height: 100vh;
+  background-attachment: fixed;
+  box-sizing: border-box;
+}
+
+/* This wrapper will hold the main content of each page */
+.main-content {
+  margin-left: 70px; /* This value must match the sidebar's width */
+  padding: 40px; /* This creates the inner spacing for the content */
+  box-sizing: border-box;
+}
+
+/* Responsive styles to handle the sidebar on smaller screens */
+@media (max-width: 720px) {
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
