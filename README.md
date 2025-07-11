@@ -85,7 +85,7 @@ Or, head to the [Deployment](#deployment) to test the system online!
 
 ## Group Project
 
-This project was developed as part of a Semester 4 Diploma in Computer Science group assignment for the courses **CSC264 (System Development Project)** and **ISP250 (Industrial Seminar)** at **Universiti Teknologi MARA (UiTM)**.  
+This project was developed as part of a Semester 4 Diploma in Computer Science group assignment for the courses **CSC264 (INTRODUCTION TO WEB AND MOBILE APPLICATION)** and **ISP250 (INFORMATION SYSTEMS DEVELOPMENT)** at **Universiti Teknologi MARA (UiTM), Tapah Campus**.  
 It is a custom event management system created for **PIKATS Travel & Tours Sdn. Bhd.**  
 [More about PIKATS on Facebook](https://www.facebook.com/pikatstravel/)
 
